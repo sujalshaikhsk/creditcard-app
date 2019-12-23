@@ -1,5 +1,6 @@
 package com.strickers.creditcard.controller;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.strickers.creditcard.dto.BuyRequestDto;
 import com.strickers.creditcard.dto.LoginRequestDto;
 import com.strickers.creditcard.dto.LoginResponseDto;
+import com.strickers.creditcard.dto.TransactionRequestDto;
+import com.strickers.creditcard.entity.Transaction;
 import com.strickers.creditcard.exception.LoginException;
 import com.strickers.creditcard.service.LoginService;
 import com.strickers.creditcard.utils.ApiConstant;
@@ -27,6 +31,12 @@ public class CreditCardController {
 	@Autowired
 	LoginService creditCardloginService;
 
+	/**
+	 * 
+	 * @param loginRequestdto
+	 * @return
+	 * @throws LoginException
+	 */
 	@PostMapping("/login")
 	public ResponseEntity<Optional<LoginResponseDto>> creditCardLogin(@RequestBody LoginRequestDto loginRequestdto)
 			throws LoginException {
@@ -43,4 +53,26 @@ public class CreditCardController {
 		return new ResponseEntity<>(loginResponsedto, HttpStatus.OK);
 
 	}
+	
+	@PostMapping("/otp")
+	public ResponseEntity<BuyRequestDto> validateOtp(@RequestBody BuyRequestDto buyRequestDto){
+		log.info("Entering into validateOtp method of validateOtp in CreditCardController");
+		BuyRequestDto buyRequestDto1 = creditCardloginService.validateOtp(buyRequestDto);
+		if(!Objects.isNull(buyRequestDto1))
+			return new ResponseEntity<>(buyRequestDto1, HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+	}
+	
+	@PostMapping("/transactions")
+	public ResponseEntity<Boolean> saveTransaction(@RequestBody TransactionRequestDto transactionRequestDto){
+		log.info("Entering into transactions method of validateOtp in CreditCardController");
+		Transaction transaction = creditCardloginService.saveTransaction(transactionRequestDto);
+		if(!Objects.isNull(transaction)) {
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+	}
+	
 }

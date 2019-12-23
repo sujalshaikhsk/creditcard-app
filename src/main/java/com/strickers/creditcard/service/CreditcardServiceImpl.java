@@ -17,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.strickers.creditcard.controller.CreditcardController;
 import com.strickers.creditcard.dto.CreditcardRequestDto;
 import com.strickers.creditcard.entity.CreditCard;
 import com.strickers.creditcard.entity.Customer;
