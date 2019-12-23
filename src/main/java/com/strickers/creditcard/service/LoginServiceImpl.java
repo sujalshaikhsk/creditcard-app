@@ -88,7 +88,7 @@ public class LoginServiceImpl implements LoginService {
 		CreditCard creditcard=creditMoney(transactionRequestDto);
 		if (!Objects.isNull(creditcard)) {
 			Transaction transaction = new Transaction();
-			transaction.setAmountSpent(transactionRequestDto.getAmount());
+			transaction.setTransactionAmount(transactionRequestDto.getAmount());
 			transaction.setRemarks("Buy Product");
 			transaction.setTransactionDate(LocalDateTime.now());
 			transaction.setCreditCard(creditcard);

@@ -11,4 +11,6 @@ import com.strickers.creditcard.entity.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
 	Optional<Customer> findByMobileNumber(Long mobileNumber);
+
+	Optional<Customer> findByMobileNumberAndPassword(Long mobileNumber, String password);
 }
