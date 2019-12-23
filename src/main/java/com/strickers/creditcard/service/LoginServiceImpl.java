@@ -23,6 +23,7 @@ import com.strickers.creditcard.repository.CustomerRepository;
 import com.strickers.creditcard.repository.OtpRepository;
 import com.strickers.creditcard.repository.TransactionRepository;
 import com.strickers.creditcard.utils.ApiConstant;
+import com.strickers.creditcard.utils.Utils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,8 +56,17 @@ public class LoginServiceImpl implements LoginService {
 			log.error("Exception occured in login() method of LoginServiceImpl");
 			throw new LoginException(ApiConstant.LOGIN_ERROR);
 		}
+		
+		String decriptedPassword=Utils.decrypt(customerResponse.get().getPassword());
+		log.error(loginRequestdto.getPassword()+"  ::::  "+decriptedPassword);
+
+		if(!loginRequestdto.getPassword().equalsIgnoreCase(decriptedPassword)) {
+			log.error("Exception occured in login() method of LoginServiceImpl");
+			throw new LoginException(ApiConstant.LOGIN_ERROR);
+		}
+		
 		LoginResponseDto loginResponsedto = new LoginResponseDto();
-		loginResponsedto.setCustomerID(customerResponse.get().getCustomerId());
+		loginResponsedto.setCustomerId(customerResponse.get().getCustomerId());
 		loginResponsedto.setCustomerName(customerResponse.get().getCustomerName());
 		loginResponsedto.setType(ApiConstant.CREDIT_CARD_TYPE);
 		return Optional.of(loginResponsedto);
