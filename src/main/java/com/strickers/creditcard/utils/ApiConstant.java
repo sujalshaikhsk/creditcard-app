@@ -29,5 +29,6 @@ public class ApiConstant {
 	public static final String POLICY_FAILURE = "The customer is unable to buy policy";
 	public static final String POLICY_SUCCESS = "The policy is successfully availed";
 	public static final String NOT_PERMITTED = "Your age is not permitted to avail the offer";
+	public static final String NO_TRANSACTIONS_FOUND = "There are no transactions for this credit card";
 
 }

@@ -32,6 +32,6 @@ public class Transaction implements Serializable {
 	@JoinColumn(name = "credit_card_number")
 	private CreditCard creditCard;
 	
-	private Double amountSpent;
+	private Double transactionAmount;
 	private String remarks;
 }
