@@ -61,6 +61,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 				if (actualMonthNumber == transactionMonth) {
 					AccountSummaryResponse accountSummaryResponse = new AccountSummaryResponse();
+					accountSummaryResponse.setCreditCardNumber(creditCard.getCreditCardNumber());
 					BeanUtils.copyProperties(transaction, accountSummaryResponse);
 					accountSummaryResponseList.add(accountSummaryResponse);
 				}

@@ -12,6 +12,7 @@ public class AccountSummaryResponse {
 	private double transactionAmount;
 	private LocalDateTime transactionDate;
 	private String remarks;
+	private Long creditCardNumber;
 
 }
 
