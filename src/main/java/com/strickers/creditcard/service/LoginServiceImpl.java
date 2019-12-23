@@ -62,6 +62,12 @@ public class LoginServiceImpl implements LoginService {
 		return Optional.of(loginResponsedto);
 	}
 
+	/**
+	 * This method is used for validate the otp for customer
+	 * @author Sujal
+	 * @param buyRequestDto
+	 * @return BuyRequestDto
+	 */
 	@Override
 	public BuyRequestDto validateOtp(BuyRequestDto buyRequestDto) {
 		BuyRequestDto buyRequestDto1 = new BuyRequestDto();
@@ -81,6 +87,12 @@ public class LoginServiceImpl implements LoginService {
 		return null;
 	}
 
+	/**
+	 * This method is used for saving the shopping transaction
+	 * @author Sujal
+	 * @param transactionRequestDto
+	 * @return Transaction
+	 */
 	@Transactional
 	@Override
 	public Transaction saveTransaction(TransactionRequestDto transactionRequestDto) {
@@ -95,9 +107,13 @@ public class LoginServiceImpl implements LoginService {
 			return transactionRepository.save(transaction);
 		}
 		return null;
-
 	}
 
+	/**
+	 * 
+	 * @param transactionRequestDto
+	 * @return CreditCard
+	 */
 	@Transactional
 	private synchronized CreditCard creditMoney(TransactionRequestDto transactionRequestDto) {
 		Optional<CreditCard> OptionalCreditcard = creditCardRepository
