@@ -7,10 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import com.strickers.creditcard.entity.Customer;
 
-
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
 	Optional<Customer> findByMobileNumber(Long mobileNumber);
-
 }
