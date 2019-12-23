@@ -1,6 +1,5 @@
 package com.strickers.creditcard.entity;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
@@ -20,9 +19,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @SequenceGenerator(name = "creditcardsequence", initialValue = 1001001001)
-public class CreditCard implements Serializable {
+public class CreditCard {
 
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "creditcardsequence")
