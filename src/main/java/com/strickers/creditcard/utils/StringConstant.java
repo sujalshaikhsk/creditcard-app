@@ -1,5 +1,7 @@
 package com.strickers.creditcard.utils;
 
+import java.time.LocalDate;
+
 /**
  * 
  * @author Sujal
@@ -20,5 +22,7 @@ public class StringConstant {
 	
 	public static final String CURRENT = "CURRENT";
 	public static final String OVERALL = "OVERALL";
-
+	public static final Integer MIN_AGE = 18;
+	public static final Double MIN_SALARY = 18000D;
+	public static final long VALID_TILL = 5;
 }

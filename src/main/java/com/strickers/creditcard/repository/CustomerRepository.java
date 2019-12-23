@@ -10,6 +10,7 @@ import com.strickers.creditcard.entity.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
+	Optional<Customer> findByMobileNumber(Long mobileNumber);
 
-	Optional<Customer> findByMobileNumberAndPassword(Long mobileNumber,String password);
+	Optional<Customer> findByMobileNumberAndPassword(Long mobileNumber, String password);
 }

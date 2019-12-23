@@ -36,5 +36,6 @@ public class CreditCard implements Serializable {
 	private Double creditCardLimit;
 	private LocalDate validFrom;
 	private LocalDate validTill;
-	private String email;
+	private String status;
+	
 }

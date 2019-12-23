@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.strickers.creditcard.dto.AccountSummaryResponse;
 import com.strickers.creditcard.dto.TransactionSummaryResponsedto;
+import com.strickers.creditcard.exception.CustomerNotFoundException;
 import com.strickers.creditcard.exception.TransactionException;
 import com.strickers.creditcard.service.TransactionService;
 import com.strickers.creditcard.utils.ApiConstant;
@@ -30,13 +31,13 @@ public class TransactionController {
 	@Autowired
 	TransactionService transactionService;
 	
-	@GetMapping("/{creditCardNumber}")
+	@GetMapping("/{customerId}")
 	public ResponseEntity<TransactionSummaryResponsedto> fetchTransactionsByMonth(
-			@PathVariable("creditCardNumber") Long creditCardNumber, @RequestParam("month") String month)
-			throws ParseException, TransactionException {
+			@PathVariable("customerId") Long customerId, @RequestParam("month") String month)
+			throws ParseException, TransactionException, CustomerNotFoundException {
 		log.info("fetch fetchTransactionsByMonth() is called");
 		List<AccountSummaryResponse> accountSummaryResponsedtoList = transactionService
-				.fetchTransactionsByMonth(creditCardNumber, month);
+				.fetchTransactionsByMonth(customerId, month);
 		TransactionSummaryResponsedto transactionSummaryResponsedto=new TransactionSummaryResponsedto();
 		if (accountSummaryResponsedtoList.isEmpty()) {
 			transactionSummaryResponsedto.setStatusCode(ApiConstant.FAILURE_CODE);

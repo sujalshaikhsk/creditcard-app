@@ -3,6 +3,7 @@ package com.strickers.creditcard.service;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,12 @@ import org.springframework.stereotype.Service;
 
 import com.strickers.creditcard.dto.AccountSummaryResponse;
 import com.strickers.creditcard.entity.CreditCard;
+import com.strickers.creditcard.entity.Customer;
 import com.strickers.creditcard.entity.Transaction;
+import com.strickers.creditcard.exception.CustomerNotFoundException;
 import com.strickers.creditcard.exception.TransactionException;
 import com.strickers.creditcard.repository.CreditCardRepository;
+import com.strickers.creditcard.repository.CustomerRepository;
 import com.strickers.creditcard.repository.TransactionRepository;
 import com.strickers.creditcard.utils.ApiConstant;
 import com.strickers.creditcard.utils.Month;
@@ -27,6 +31,9 @@ public class TransactionServiceImpl implements TransactionService {
 	TransactionRepository transactionRepository;
 	
 	@Autowired
+	CustomerRepository customerRepository;
+	
+	@Autowired
 	CreditCardRepository creditCardRepository;
 	
 	/*
@@ -35,10 +42,14 @@ public class TransactionServiceImpl implements TransactionService {
 	 * transactions will be fetched
 	 */
 	@Override
-	public List<AccountSummaryResponse> fetchTransactionsByMonth(Long creditCardNumber, String month)
-			throws ParseException, TransactionException {
+	public List<AccountSummaryResponse> fetchTransactionsByMonth(Long customerId, String month)
+			throws ParseException, TransactionException, CustomerNotFoundException {
 		log.info("The method fetchTransactionsByMonth() is called in service");
-		CreditCard creditCard=creditCardRepository.findByCreditCardNumber(creditCardNumber);
+		Optional<Customer> customer=customerRepository.findById(customerId);
+		if(!customer.isPresent()) {
+			throw new CustomerNotFoundException(ApiConstant.CUSTOMER_NOT_FOUND);
+		}
+		CreditCard creditCard=creditCardRepository.findByCustomer(customer.get());
 		List<Transaction> transactions=transactionRepository.findByCreditCard(creditCard);
 		
 		List<AccountSummaryResponse> accountSummaryResponseList = new ArrayList<>();
