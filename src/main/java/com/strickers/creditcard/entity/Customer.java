@@ -32,4 +32,6 @@ public class Customer implements Serializable{
 	private Double salary;
 	private String email;
 	private String password;
+	private String status;
+	private LocalDate createdDate;
 }

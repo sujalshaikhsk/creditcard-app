@@ -1,13 +1,20 @@
 package com.strickers.creditcard.dto;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(content = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ExceptionResponseDto {
+public class ExceptionResponseDto implements Serializable {
 
-    private String errorCode;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private String errorCode;
     private String message;
 
     public ExceptionResponseDto(String errorCode, String message) {
