@@ -102,8 +102,7 @@ public class CreditcardServiceImpl implements CreditcardService {
 
 		String url = "http://localhost:8084/shoppingcart/customers";
 
-		Customer customer1 = restTemplate.exchange(url, HttpMethod.POST, entity, Customer.class).getBody();
-		return customer1;
+		return restTemplate.exchange(url, HttpMethod.POST, entity, Customer.class).getBody();
 	}
 
 }

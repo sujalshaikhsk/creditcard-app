@@ -9,7 +9,9 @@ import com.strickers.creditcard.exception.TransactionException;
 
 public interface TransactionService {
 	
-	List<AccountSummaryResponse> fetchTransactionsByMonth(Long creditCardNumber, String month) throws ParseException, TransactionException, CustomerNotFoundException;
+
+	List<AccountSummaryResponse> fetchTransactionsByMonth(Long customerId, String month, Integer year)
+			throws ParseException, TransactionException, CustomerNotFoundException;
 	
 
 
