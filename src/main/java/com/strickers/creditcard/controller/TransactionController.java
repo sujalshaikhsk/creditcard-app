@@ -22,29 +22,53 @@ import com.strickers.creditcard.utils.ApiConstant;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The TransactionController class fetches the list of transaction for the
+ * particular year and month
+ * 
+ * @author Bindushree
+ * 
+ */
 @RequestMapping("/transactions")
 @RestController
 @Slf4j
 @CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
 public class TransactionController {
-	
+
 	@Autowired
 	TransactionService transactionService;
-	
+
+	/**
+	 * The fetchTransactionsByMonth method returns the list of transaction for the
+	 * particular year and month
+	 * 
+	 * @author Bindushree
+	 * 
+	 * @param customerId
+	 * @param month
+	 * @param year
+	 * @return TransactionSummaryResponsedto it returns the list of transaction for
+	 *         the particular year and month
+	 * @throws ParseException
+	 * @throws TransactionException
+	 * @throws CustomerNotFoundException
+	 */
 	@GetMapping("/{customerId}")
 	public ResponseEntity<TransactionSummaryResponsedto> fetchTransactionsByMonth(
-			@PathVariable("customerId") Long customerId, @RequestParam("month") String month)
-			throws ParseException, TransactionException, CustomerNotFoundException {
-		log.info("fetch fetchTransactionsByMonth() is called");
+			@PathVariable("customerId") Long customerId, @RequestParam("month") String month,
+			@RequestParam("year") Integer year) throws ParseException, TransactionException, CustomerNotFoundException {
+		log.info("Entering fetchTransactionsByMonth() method is called");
 		List<AccountSummaryResponse> accountSummaryResponsedtoList = transactionService
-				.fetchTransactionsByMonth(customerId, month);
-		TransactionSummaryResponsedto transactionSummaryResponsedto=new TransactionSummaryResponsedto();
+				.fetchTransactionsByMonth(customerId, month, year);
+		TransactionSummaryResponsedto transactionSummaryResponsedto = new TransactionSummaryResponsedto();
 		if (accountSummaryResponsedtoList.isEmpty()) {
+			log.error("Transaction list is empty");
 			transactionSummaryResponsedto.setStatusCode(ApiConstant.FAILURE_CODE);
 			transactionSummaryResponsedto.setMessage(ApiConstant.NO_TRANSACTIONS_FOUND);
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			
+
 		}
+		log.info("Fetchig the list of transactions");
 		transactionSummaryResponsedto.setTransactions(accountSummaryResponsedtoList);
 		transactionSummaryResponsedto.setStatusCode(ApiConstant.SUCCESS_CODE);
 		transactionSummaryResponsedto.setMessage(ApiConstant.SUCCESS);

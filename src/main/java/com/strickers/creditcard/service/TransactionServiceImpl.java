@@ -23,55 +23,69 @@ import com.strickers.creditcard.utils.Month;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The TransactionServiceImpl class fetches the list of transaction for the
+ * particular year and month
+ * 
+ * @author Bindushree
+ * 
+ */
 @Service
 @Slf4j
 public class TransactionServiceImpl implements TransactionService {
-	
+
 	@Autowired
 	TransactionRepository transactionRepository;
-	
+
 	@Autowired
 	CustomerRepository customerRepository;
-	
+
 	@Autowired
 	CreditCardRepository creditCardRepository;
-	
-	/*
-	 * this method takes two parameters which are customerId and month and finds
-	 * the specific month number And with the help of creditCardNumber and month
-	 * transactions will be fetched
+
+	/**
+	 * this method takes three parameters which are customerId and month and year
+	 * and finds the specific month number And with the help of creditCardNumber and
+	 * month transactions will be fetched
+	 * 
+	 * @param customerId
+	 * @param month
+	 * @param year
+	 * @return
+	 * @throws ParseException
+	 * @throws TransactionException
+	 * @throws CustomerNotFoundException
 	 */
 	@Override
-	public List<AccountSummaryResponse> fetchTransactionsByMonth(Long customerId, String month)
+	public List<AccountSummaryResponse> fetchTransactionsByMonth(Long customerId, String month, Integer year)
 			throws ParseException, TransactionException, CustomerNotFoundException {
 		log.info("The method fetchTransactionsByMonth() is called in service");
-		Optional<Customer> customer=customerRepository.findById(customerId);
-		if(!customer.isPresent()) {
+		Optional<Customer> customer = customerRepository.findById(customerId);
+		if (!customer.isPresent()) {
 			throw new CustomerNotFoundException(ApiConstant.CUSTOMER_NOT_FOUND);
 		}
-		CreditCard creditCard=creditCardRepository.findByCustomer(customer.get());
-		List<Transaction> transactions=transactionRepository.findByCreditCard(creditCard);
-		
+		CreditCard creditCard = creditCardRepository.findByCustomer(customer.get());
+		List<Transaction> transactions = transactionRepository.findByCreditCard(creditCard);
+
 		List<AccountSummaryResponse> accountSummaryResponseList = new ArrayList<>();
-			for (Transaction transaction : transactions) {
+		for (Transaction transaction : transactions) {
 
-				Integer transactionMonth = transaction.getTransactionDate().getMonthValue();
+			Integer transactionMonth = transaction.getTransactionDate().getMonthValue();
+			Integer transactionYear = transaction.getTransactionDate().getYear();
+			Integer actualMonthNumber = Month.monthStringToInt(month);
 
-				int actualMonthNumber = Month.monthStringToInt(month);
-
-				if (actualMonthNumber == transactionMonth) {
-					AccountSummaryResponse accountSummaryResponse = new AccountSummaryResponse();
-					accountSummaryResponse.setCreditCardNumber(creditCard.getCreditCardNumber());
-					BeanUtils.copyProperties(transaction, accountSummaryResponse);
-					accountSummaryResponseList.add(accountSummaryResponse);
-				}
+			if (actualMonthNumber.equals(transactionMonth) && transactionYear.equals(year)) {
+				AccountSummaryResponse accountSummaryResponse = new AccountSummaryResponse();
+				accountSummaryResponse.setCreditCardNumber(creditCard.getCreditCardNumber());
+				BeanUtils.copyProperties(transaction, accountSummaryResponse);
+				accountSummaryResponseList.add(accountSummaryResponse);
 			}
-			if(accountSummaryResponseList.isEmpty()) {
-				throw new TransactionException(ApiConstant.NO_TRANSACTIONS_FOUND);
-			}
+		}
+		if (accountSummaryResponseList.isEmpty()) {
+			throw new TransactionException(ApiConstant.NO_TRANSACTIONS_FOUND);
+		}
 		return accountSummaryResponseList;
-		
-}
+
+	}
 
 }
-

@@ -46,7 +46,6 @@ public class Utils {
 			cipher = Cipher.getInstance(myEncryptionScheme);
 			key = skf.generateSecret(ks);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -85,8 +84,7 @@ public class Utils {
 		if (divisor == 0)
 			divisor = 1L;
 		Double output = (base * 100.0) / divisor;
-		Double percentage = (double) Math.round(output * 100) / 100;
-		return percentage;
+		return (double) Math.round(output * 100) / 100;
 	}
 
 	public static String encrypt(String unencryptedString) {
@@ -116,7 +114,7 @@ public class Utils {
 	}
 
 	public static Integer calculateAge(LocalDate dateOfBirth) {
-		Integer years=LocalDate.now().getYear()-dateOfBirth.getYear();
+		Integer years = LocalDate.now().getYear() - dateOfBirth.getYear();
 		return years;
 	}
 }
