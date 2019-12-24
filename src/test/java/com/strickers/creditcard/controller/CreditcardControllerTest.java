@@ -12,6 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.strickers.creditcard.dto.CreditcardRequestDto;
@@ -23,6 +29,7 @@ import com.strickers.creditcard.service.LoginService;
 import com.strickers.creditcard.utils.ApiConstant;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
+@WebMvcTest(CreditCardController.class)
 public class CreditcardControllerTest {
 
 	@InjectMocks
@@ -33,6 +40,8 @@ public class CreditcardControllerTest {
 
 	@Mock
 	private LoginService loginService;
+	
+	private MockMvc mockMvc;
 
 	CreditcardRequestDto creditcardRequestDto = null;
 	CreditcardResponseDto creditcardResponseDto = null;
@@ -61,6 +70,20 @@ public class CreditcardControllerTest {
 		creditCard.setCustomer(customer);
 	}
 
+	
+	@Test
+	public void testCreateCreditCardForPositive() throws Exception {
+
+		MvcResult mvcResult = mockMvc
+				.perform(MockMvcRequestBuilders.post("/creditcards")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(asJsonString(creditcardRequestDto)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+		Mockito.when(creditcardService.createCreditCard(creditcardRequestDto)).thenReturn(Optional.of(creditCard));
+		Mockito.verify(creditcardService).createCreditCard(creditcardRequestDto);
+	}
+	
 	@Test
 	public void testCreateCreditCardPositive() {
 		Mockito.when(creditcardService.createCreditCard(creditcardRequestDto)).thenReturn(Optional.of(creditCard));

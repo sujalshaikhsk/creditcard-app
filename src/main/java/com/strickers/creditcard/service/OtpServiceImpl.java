@@ -40,11 +40,11 @@ public class OtpServiceImpl implements OtpService {
 
 		Optional<CreditCard> creditcardDetails = creditcardRepository.findById(otpRequestDto.getCreditCardNumber());
 		if (!creditcardDetails.isPresent()) {
-			throw new AccountNotFoundException("please enter valid account number");
+			throw new AccountNotFoundException("Please enter valid account number");
 		}
 		
 		if(!creditcardDetails.get().getCvv().equals(otpRequestDto.getCvv())) {
-			throw new CvvDoesNotMatchException("please enter valid cvv number");
+			throw new CvvDoesNotMatchException("Please enter valid cvv number");
 		}
 		Integer otp = Utils.generateOtp();
 		Otp otpobj = new Otp();

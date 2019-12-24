@@ -44,5 +44,6 @@ public class ApiConstant {
 	public static final String WHITE_SPACE = "\t";
 	public static final String NOACCOUNT_FOUND = "Credit card doesn't exist";
 	public static final String INSUFFICIENT_FUND = "Insufficient fund to proceed the transaction";
+	public static final String OTP_MSG = "OTP sent to your email Id";
 
 }

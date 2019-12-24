@@ -82,7 +82,7 @@ public class LoginServiceImpl implements LoginService {
 
 		CreditCard creditcard=creditMoney(transactionRequestDto);
 		if (!Objects.isNull(creditcard)) {
-			if(transactionRequestDto.getAmount()>creditcard.getAvailableBalance()) {
+			if(transactionRequestDto.getAmount()<creditcard.getAvailableBalance()) {
 			Transaction transaction = new Transaction();
 			transaction.setTransactionAmount(transactionRequestDto.getAmount());
 			transaction.setRemarks("Buy Product");
@@ -97,7 +97,7 @@ public class LoginServiceImpl implements LoginService {
 		}
 	}
 
-	/**
+	/**	
 	 * 
 	 * @param transactionRequestDto
 	 * @return CreditCard

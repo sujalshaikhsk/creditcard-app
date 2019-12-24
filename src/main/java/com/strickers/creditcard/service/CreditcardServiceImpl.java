@@ -26,6 +26,11 @@ import com.strickers.creditcard.utils.CreditcardValidator;
 import com.strickers.creditcard.utils.StringConstant;
 import com.strickers.creditcard.utils.Utils;
 
+/**
+ * This service is used to create and manipulate credit card
+ * @author Sujal
+ *
+ */
 @Service
 public class CreditcardServiceImpl implements CreditcardService {
 
@@ -95,7 +100,7 @@ public class CreditcardServiceImpl implements CreditcardService {
 	 * @param creditcardRequestDto
 	 * @return Customer
 	 */
-	private Customer saveCustomer(CreditcardRequestDto creditcardRequestDto) {
+	public Customer saveCustomer(CreditcardRequestDto creditcardRequestDto) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<CreditcardRequestDto> entity = new HttpEntity<>(creditcardRequestDto, headers);

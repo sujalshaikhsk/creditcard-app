@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -95,6 +96,7 @@ public class CreditCardController {
 	}
 
 	/**
+	 * This api is used to validate the OTP
 	 * 
 	 * @param buyRequestDto
 	 * @return
@@ -110,18 +112,19 @@ public class CreditCardController {
 	}
 
 	/**
+	 * This api is used to generate the OTP
 	 * 
 	 * @param creditCardNumber
-	 * @return
+	 * @return Optional<OtpResponseDto>
 	 * @throws AccountNotFoundException
 	 */
-	@PostMapping("customers/{creditCardNumber}")
-	public ResponseEntity<Optional<OtpResponseDto>> generateOtp(@RequestBody OtpRequestDto otpRequestDto)
+	@PostMapping("/customers/{cutomerId}")
+	public ResponseEntity<Optional<OtpResponseDto>> generateOtp(@PathVariable Long cutomerId, @RequestBody OtpRequestDto otpRequestDto)
 			throws AccountNotFoundException {
 		log.info("Entering into generateOtp method of creditCardLogin in CreditCardController");
-		otpService.generateOtp(otpRequestDto);
-		OtpResponseDto otpResponseDto = new OtpResponseDto();
-		otpResponseDto.setMessage(ApiConstant.LOGIN_SUCCESS);
+		
+		OtpResponseDto otpResponseDto =  otpService.generateOtp(otpRequestDto);
+		otpResponseDto.setMessage(ApiConstant.OTP_MSG);
 		otpResponseDto.setStatusCode(HttpStatus.OK.value());
 		log.error("otp generation in credit card login method");
 		return new ResponseEntity<>(Optional.of(otpResponseDto), HttpStatus.OK);

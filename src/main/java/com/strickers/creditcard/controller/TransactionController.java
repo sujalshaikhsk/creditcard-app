@@ -86,9 +86,10 @@ public class TransactionController {
 	}
 	
 	/**
+	 * This api is used to save the transaction
 	 * 
-	 * @param transactionRequestDto
-	 * @return
+	 * @param transactionRequestDto is having all the detail of transaction details
+	 * @return Boolean
 	 */
 	@PostMapping("")
 	public ResponseEntity<Boolean> saveTransaction(@RequestBody TransactionRequestDto transactionRequestDto){
