@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 import com.strickers.creditcard.entity.CreditCard;
 import com.strickers.creditcard.entity.Transaction;
 
+
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction, Integer>{
+public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
 	List<Transaction> findByCreditCard(CreditCard creditCard);
 

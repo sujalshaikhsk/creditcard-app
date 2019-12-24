@@ -8,7 +8,7 @@ import lombok.Setter;
 public class LoginResponseDto {
 	private Integer statusCode;
 	private String message;
-	private Long customerID;
+	private Long customerId;
 	private String customerName;
 	private String type;
 }
