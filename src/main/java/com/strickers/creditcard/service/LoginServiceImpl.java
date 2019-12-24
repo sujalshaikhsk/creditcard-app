@@ -9,20 +9,21 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.strickers.creditcard.dto.BuyRequestDto;
 import com.strickers.creditcard.dto.LoginRequestDto;
 import com.strickers.creditcard.dto.LoginResponseDto;
 import com.strickers.creditcard.dto.TransactionRequestDto;
 import com.strickers.creditcard.entity.CreditCard;
 import com.strickers.creditcard.entity.Customer;
-import com.strickers.creditcard.entity.Otp;
 import com.strickers.creditcard.entity.Transaction;
+import com.strickers.creditcard.exception.AccountNotFoundException;
+import com.strickers.creditcard.exception.InsufficientFundException;
 import com.strickers.creditcard.exception.LoginException;
 import com.strickers.creditcard.repository.CreditCardRepository;
 import com.strickers.creditcard.repository.CustomerRepository;
 import com.strickers.creditcard.repository.OtpRepository;
 import com.strickers.creditcard.repository.TransactionRepository;
 import com.strickers.creditcard.utils.ApiConstant;
+import com.strickers.creditcard.utils.StringConstant;
 import com.strickers.creditcard.utils.Utils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,9 +40,6 @@ public class LoginServiceImpl implements LoginService {
 	
 	@Autowired
 	private TransactionRepository transactionRepository;
-
-	@Autowired
-	private OtpRepository otpRepository;
 
 	/**
 	 * @Description This method is used for user to login with valid credentials
@@ -73,31 +71,6 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	/**
-	 * This method is used for validate the otp for customer
-	 * @author Sujal
-	 * @param buyRequestDto
-	 * @return BuyRequestDto
-	 */
-	@Override
-	public BuyRequestDto validateOtp(BuyRequestDto buyRequestDto) {
-		BuyRequestDto buyRequestDto1 = new BuyRequestDto();
-
-		Optional<CreditCard> creditcard = creditCardRepository.findById(buyRequestDto.getCreditCardNumber());
-		if (creditcard.isPresent()) {
-			log.error("inside creditcard present ");
-			Otp otp = otpRepository.getOtpbyCreditCardNumber(creditcard.get().getCreditCardNumber());
-			if (!Objects.isNull(otp)) {
-				log.error("inside otp present ");
-				buyRequestDto1.setOtp(otp.getOtpNumber());
-				buyRequestDto1.setCreditCardNumber(creditcard.get().getCreditCardNumber());
-				buyRequestDto1.setShippingAddress(buyRequestDto.getShippingAddress());
-				return buyRequestDto1;
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * This method is used for saving the shopping transaction
 	 * @author Sujal
 	 * @param transactionRequestDto
@@ -109,14 +82,19 @@ public class LoginServiceImpl implements LoginService {
 
 		CreditCard creditcard=creditMoney(transactionRequestDto);
 		if (!Objects.isNull(creditcard)) {
+			if(transactionRequestDto.getAmount()>creditcard.getAvailableBalance()) {
 			Transaction transaction = new Transaction();
 			transaction.setTransactionAmount(transactionRequestDto.getAmount());
 			transaction.setRemarks("Buy Product");
 			transaction.setTransactionDate(LocalDateTime.now());
 			transaction.setCreditCard(creditcard);
 			return transactionRepository.save(transaction);
+			}else {
+				throw new InsufficientFundException(ApiConstant.INSUFFICIENT_FUND);
+			}
+		}else {
+			throw new AccountNotFoundException(ApiConstant.NOACCOUNT_FOUND);
 		}
-		return null;
 	}
 
 	/**

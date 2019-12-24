@@ -34,6 +34,7 @@ public class CreditCard {
 	private Double creditCardLimit;
 	private LocalDate validFrom;
 	private LocalDate validTill;
+	private Integer cvv;
 	private String status;
 	
 }

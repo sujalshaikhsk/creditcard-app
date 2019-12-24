@@ -116,7 +116,21 @@ public class Utils {
 	}
 
 	public static Integer calculateAge(LocalDate dateOfBirth) {
-		Integer years=LocalDate.now().getYear()-dateOfBirth.getYear();
+		Integer years = LocalDate.now().getYear() - dateOfBirth.getYear();
 		return years;
+	}
+
+	public static Integer generateOtp() {
+		int randomPin = (int) (Math.random() * 9000) + 1000;
+		String otp = String.valueOf(randomPin);
+		Integer otpnum = Integer.parseInt(otp);
+		return otpnum;
+	}
+	
+	public static Integer generateCVV() {
+		int randomPin = (int) (Math.random() * 900) + 100;
+		String otp = String.valueOf(randomPin);
+		Integer otpnum = Integer.parseInt(otp);
+		return otpnum;
 	}
 }

@@ -21,6 +21,7 @@ public class CreditcardResponseDto implements Serializable {
 	private Double creditCardLimit;
 	private LocalDate validFrom;
 	private LocalDate validTill;
+	private Integer cvv;
 	private String status;
 	
 	private Integer statusCode;

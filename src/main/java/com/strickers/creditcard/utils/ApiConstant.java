@@ -31,5 +31,18 @@ public class ApiConstant {
 	public static final String NOT_PERMITTED = "Your age is not permitted to avail the offer";
 	public static final String NO_TRANSACTIONS_FOUND = "There are no transactions for this credit card";
 	public static final String CREDITCARD_SUCCESS = "Credit card has been generated";
+	
+	public static final String OTP_SUCCESS_MESSAGE = "successfuly product is added to cart";
+	public static final String OTP_FAILURE_MESSAGE = "please enter a valid otp";
+	public static final String CREDITCARD_FROM_GMAILID = "testmail2521@gmail.com";
+	public static final String CREDITCARD_GMAIL_SUBJECT = "CREDITCARD OTP";
+	public static final String CREDITCARD_TEXT_ONE = "WELCOME TO CREDITCARD";
+	public static final String CREDITCARD_TEXT_TWO = "HI";
+	public static final String CREDITCARD_TEXT_THREE = "your otp is";
+	public static final String CREDITCARD_TEXT_FOUR = "NOTE :- DONT SHARE YOUR CREDENTIALS";
+	public static final String NEXT_LINE = "\n";
+	public static final String WHITE_SPACE = "\t";
+	public static final String NOACCOUNT_FOUND = "Credit card doesn't exist";
+	public static final String INSUFFICIENT_FUND = "Insufficient fund to proceed the transaction";
 
 }

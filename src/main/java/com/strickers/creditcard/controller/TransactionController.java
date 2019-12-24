@@ -40,6 +40,15 @@ public class TransactionController {
 	@Autowired
 	private LoginService creditCardloginService;
 	
+	/**
+	 * 
+	 * @param customerId
+	 * @param month
+	 * @return
+	 * @throws ParseException
+	 * @throws TransactionException
+	 * @throws CustomerNotFoundException
+	 */
 	@GetMapping("/{customerId}")
 	public ResponseEntity<TransactionSummaryResponsedto> fetchTransactionsByMonth(
 			@PathVariable("customerId") Long customerId, @RequestParam("month") String month)
@@ -60,6 +69,11 @@ public class TransactionController {
 		return new ResponseEntity<>(transactionSummaryResponsedto, HttpStatus.OK);
 	}
 	
+	/**
+	 * 
+	 * @param transactionRequestDto
+	 * @return
+	 */
 	@PostMapping("")
 	public ResponseEntity<Boolean> saveTransaction(@RequestBody TransactionRequestDto transactionRequestDto){
 		log.info("Entering into transactions method of validateOtp in CreditCardController");

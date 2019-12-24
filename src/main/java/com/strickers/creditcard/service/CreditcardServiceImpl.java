@@ -44,6 +44,11 @@ public class CreditcardServiceImpl implements CreditcardService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CreditcardServiceImpl.class);
 
+	/**
+	 * 
+	 * @param CreditcardRequestDto
+	 * @return Optional<CreditCard>
+	 */
 	@Override
 	public Optional<CreditCard> createCreditCard(CreditcardRequestDto creditcardRequestDto) {
 		Customer customer1 = null;
@@ -67,6 +72,11 @@ public class CreditcardServiceImpl implements CreditcardService {
 		return Optional.ofNullable(null);
 	}
 
+	/**
+	 * 
+	 * @param customer1
+	 * @return CreditCard
+	 */
 	private CreditCard generateCreditcard(Customer customer1) {
 		CreditCard creditCard = new CreditCard();
 		Double balance= customer1.getSalary()*3;
@@ -75,9 +85,16 @@ public class CreditcardServiceImpl implements CreditcardService {
 		creditCard.setValidFrom(LocalDate.now());
 		creditCard.setValidTill(LocalDate.now().plusYears(StringConstant.VALID_TILL));
 		creditCard.setStatus(StringConstant.ACTIVE_STATUS);
+		creditCard.setCustomer(customer1);
+		creditCard.setCvv(Utils.generateCVV());
 		return creditCardRepository.save(creditCard);	
 	}
 
+	/**
+	 * 
+	 * @param creditcardRequestDto
+	 * @return Customer
+	 */
 	private Customer saveCustomer(CreditcardRequestDto creditcardRequestDto) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
